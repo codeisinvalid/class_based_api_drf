@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Student
+import re
 
 
 class StudentSerializer(serializers.Serializer):
@@ -18,3 +19,13 @@ class StudentSerializer(serializers.Serializer):
         instance.city = validated_data.get('city', instance.city)
         instance.save()
         return instance
+    
+    def validate_roll(self, value):
+        if value>=200:
+            raise serializers.ValidationError("Seats Full. No admissions available currently.")
+        return value
+    
+    def validate_name(self, value):
+        pattern = r'^[a-zA-Z\s]+$'
+        if not re.match(pattern, value):
+            raise serializers.ValidationError("Name must only contain alpnabets or space")
