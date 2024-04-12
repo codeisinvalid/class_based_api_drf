@@ -3,8 +3,14 @@ from .models import Student
 import re
 
 
+# Validators
+def start_with_s(value):
+    if value[0].lower() != 's':
+        raise serializers.ValidationError('Name should start with "S"')
+
+
 class StudentSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length = 100)
+    name = serializers.CharField(max_length = 100, validators = [start_with_s])
     roll = serializers.IntegerField()
     grade = serializers.CharField(max_length = 100)
     city = serializers.CharField(max_length = 100)
@@ -29,3 +35,12 @@ class StudentSerializer(serializers.Serializer):
         pattern = r'^[a-zA-Z\s]+$'
         if not re.match(pattern, value):
             raise serializers.ValidationError("Name must only contain alpnabets or space")
+        return value
+        
+
+    def validate(self, data):
+        nm = data['name']
+        ct = data['city']
+        if nm.lower() == 'sujan' and ct.lower() != 'pokhara':
+            raise serializers.ValidationError("The city must be Pokhara")
+        return data

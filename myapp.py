@@ -16,17 +16,18 @@ def get_data(id=None):
 
 def post_data():
     data = {
-        'name':'Sujan Kshettry',
-        'roll':55,
-        'city':'Pokhara-16, Batulechour',
+        'name':'pujan',
+        'roll':101,
+        'city':'amalapuram',
         'grade':'B.Tech'
     }
+
     json_data = json.dumps(data)
     r = requests.post(url = URL, data = json_data)
     data = r.json()
     print(data)
 
-# post_data()
+post_data()
 
 def update_data():
     data = {
@@ -52,7 +53,7 @@ def delete_data():
     data = r.json()
     print(data)
 
-delete_data()
+# delete_data()
 
 
 
